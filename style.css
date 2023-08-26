@@ -1,0 +1,12 @@
+body {
+  background-color: #222;
+  color: white;
+  text-align: center;
+}
+
+video {
+  margin:2rem auto;
+  filter: invert(1.0);
+}
+
+
