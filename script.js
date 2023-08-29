@@ -1,19 +1,24 @@
-navigator.getUserMedia = navigator.getUserMedia
-    || navigator.webkitGetUserMedia
-    || navigator.mozGetUserMedia;
-
-window.URL = window.URL || window.webkitURL;
-
-let webcam = document.getElementById('webcam');
-let localStream = null;
-
-navigator.getUserMedia( {video: true, audio: false}, success, error);
-
-function success(stream) { // for success case
-  webcam.srcObject = stream;
-  console.log(stream);
+async function setupCamera() {
+  const stream = await navigator.mediaDevices.getUserMedia({'audio': false, 'video': true});
+	const video = document.getElementById('webcam');
+  video.srcObject = stream;
 }
 
-function error(err) { // for error case
-  console.log(err);
+async function startCapture(){
+  await setupCamera();
+  const deviceInfos = await navigator.mediaDevices.enumerateDevices();
+	deviceInfos.forEach(deviceInfo=>{
+		console.log(deviceInfo.kind, deviceInfo.label, deviceInfo.deviceId);
+	})
+	const constraints = await navigator.mediaDevices.getSupportedConstraints();
+	for (const [key, value] of Object.entries(constraints)) {
+    console.log(`${key}: ${value}`);
+  }
+  navigator.mediaDevices.ondevicechange = function(event) {
+    console.log("ondevicechange", event)
+  }
 }
+
+window.onload = function(){
+  startCapture()
+};

@@ -5,7 +5,8 @@ body {
 }
 
 video {
-  margin:2rem auto;
+  margin: auto;
+  margin-top:3rem;
   filter: invert(1.0);
 }
 
